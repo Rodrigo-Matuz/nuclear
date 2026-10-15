@@ -20,6 +20,12 @@
   
 </div>
 
+> **Personal fork:** This repository is Rodrigo Matuz's fork of
+> [nukeop/nuclear](https://github.com/nukeop/nuclear), maintained for personal
+> NixOS use and experimentation. It is not the official Nuclear repository.
+> Nuclear itself and its releases are maintained upstream; changes here are
+> not guaranteed to be submitted or maintained by upstream.
+
 ## Screenshots
 
 <p align="center">
@@ -75,6 +81,29 @@ Grab the latest release for your platform from the [Releases page](https://githu
 | Windows | `.exe` installer, `.msi` |
 | macOS | `.dmg` (Apple Silicon and Intel) |
 | Linux | `.AppImage`, `.deb`, `.rpm`, `.flatpak` |
+
+### Nix / NixOS (x86_64-linux)
+
+The flake repackages the pinned upstream `.deb` with Nixpkgs' GTK/WebKitGTK and
+GStreamer runtime libraries; it does **not** compile the Tauri app from source.
+Run it with `nix run github:Rodrigo-Matuz/nuclear` or install it with
+`nix profile add github:Rodrigo-Matuz/nuclear`. To use it declaratively:
+
+```nix
+# flake.nix inputs
+nuclear.url = "github:Rodrigo-Matuz/nuclear";
+nuclear.inputs.nixpkgs.follows = "nixpkgs";
+
+# Home Manager modules (where `inputs` is available)
+imports = [ inputs.nuclear.homeManagerModules.default ];
+programs.nuclear-music-player.enable = true;
+```
+
+Alternatively, add `inputs.nuclear.packages.x86_64-linux.default` to
+`home.packages` or `environment.systemPackages`. Currently only x86_64 Linux is
+supported. Release updates require updating the version, literal `player@…`
+tag, asset name, and SHA-256 in `flake.nix`; the binary is not automatically
+updated when a new release appears.
 
 ## Features
 
