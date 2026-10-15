@@ -86,12 +86,16 @@ Grab the latest release for your platform from the [Releases page](https://githu
 
 The flake repackages the pinned upstream `.deb` with Nixpkgs' GTK/WebKitGTK and
 GStreamer runtime libraries; it does **not** compile the Tauri app from source.
-Run it with `nix run github:Rodrigo-Matuz/nuclear` or install it with
-`nix profile add github:Rodrigo-Matuz/nuclear`. To use it declaratively:
+Run it with `nix run github:Rodrigo-Matuz/nuclear/nix` or install it with
+`nix profile add github:Rodrigo-Matuz/nuclear/nix`. The lightweight `nix`
+branch contains only the flake files: fetching the full music-player repository
+through Nix is unnecessarily large and timed out during testing. The application
+source and ongoing work remain on `master`. When the flake changes on `master`,
+update the `nix` branch as well. To use it declaratively:
 
 ```nix
 # flake.nix inputs
-nuclear.url = "github:Rodrigo-Matuz/nuclear";
+nuclear.url = "github:Rodrigo-Matuz/nuclear/nix";
 nuclear.inputs.nixpkgs.follows = "nixpkgs";
 
 # Home Manager modules (where `inputs` is available)
